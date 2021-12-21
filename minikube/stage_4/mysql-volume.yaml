@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-pod
+  labels:
+    name: mysql
+spec:
+  containers:
+    - name: mysql-volume
+      image: mysql
+      env:
+      - name: MYSQL_DATABASE
+        value: eazytraining
+      - name: MYSQL_USER
+        value: eazy
+      - name: MYSQL_PASSWORD
+        value: eazy
+      - name: MYSQL_ROOT_PASSWORD
+        value: password
+  #point de montage au niveau du container
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: mysql-data
+      - name: data-opt
+        mountPath: /opt
+    #creation du volume
+  volumes:
+   - name: mysql-data
+     hostPath:
+      path: /data-volume
+      type: DirectoryOrCreate
+   - name: data-opt
+     hostPath:
+       path: /data-opt
+       type: Directory
